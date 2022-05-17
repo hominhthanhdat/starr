@@ -1,0 +1,415 @@
+
+<div class="card">
+    <h5>Employee</h5>
+    <div class="button-container">
+        <button pButton type="button" class="p-button-raised p-button-rounded" label="Add Employee" (click)="showForm()" ></button>
+    </div>
+    <p-table #dt2 [value]="customers" dataKey="id" (sortFunction)="customSort($event)" [customSort]="true"
+        [rows]="4" [showCurrentPageReport]="true" [rowsPerPageOptions]="[6,8,50]" [loading]="loading"
+        [paginator]="true" currentPageReportTemplate="Showing {first} to {last} of {totalRecords} entries"
+        [globalFilterFields]="['name','country.name','representative.name','status']">
+        <ng-template pTemplate="header">
+            <tr>
+                <th pSortableColumn="fullName">Full Name <p-sortIcon field="fullName"></p-sortIcon></th>
+                <th pSortableColumn="businessId">Bussiness <p-sortIcon field="businessId"></p-sortIcon></th>
+                <th pSortableColumn="roleEmployee">Position <p-sortIcon field="roleEmployee"></p-sortIcon></th>
+                <th pSortableColumn="departmentId">Department <p-sortIcon field="departmentId"></p-sortIcon></th>
+                <th pSortableColumn="statusEmployee">Status <p-sortIcon field="statusEmployee"></p-sortIcon></th>
+                <th>Action</th>
+            </tr>
+            <tr>
+                <th>
+                    <p-columnFilter type="text" field="fullName"></p-columnFilter>
+                </th>
+                <th>
+                    <p-columnFilter type="text" field="businessId"></p-columnFilter>
+                </th>
+                <th>
+                    <p-columnFilter type="text" field="roleEmployee"></p-columnFilter>
+                   
+                </th>
+                <th>
+                    <p-columnFilter type="text" field="departmentId"></p-columnFilter>
+                </th>
+                <th>
+                    <p-columnFilter field="statusEmployee" matchMode="equals" [showMenu]="false">
+                        <ng-template pTemplate="filter" let-value let-filter="filterCallback">
+                            <p-dropdown [ngModel]="value" [options]="statuses" (onChange)="filter($event.value)" placeholder="Any" [showClear]="true">
+                                <ng-template let-option pTemplate="item">
+                                    <span [class]="'customer-badge status-' + option.value">{{option.label}}</span>
+                                </ng-template>
+                            </p-dropdown>
+                        </ng-template>
+                    </p-columnFilter>
+                </th>
+                <th></th>
+            </tr>
+        </ng-template>
+        <ng-template pTemplate="body" let-customers>
+            <tr>
+                <td>
+                    {{customers.fullName}}
+                </td>
+                <td>
+                    <span class="image-text">{{customers.businessId}}</span>
+                </td>
+                <td>
+                    
+                    <span class="image-text">{{customers.roleEmployee}}</span>
+                </td>
+                <td>{{customers.departmentId}}</td>
+                <td>
+                    <span [class]="'customer-badge status-' + customers.statusEmployee">{{customers.statusEmployee==1?"Working":customers.statusEmployee==2?"Available":"Unavailable"}}</span>
+                </td>
+                <td>               
+                    <a (click)="fillData(customers.employeeId)"><i class="fa-solid fa-file-lines"></i></a>
+                </td>
+            </tr>
+        </ng-template>
+        <ng-template pTemplate="emptymessage">
+            <tr>
+                <td colspan="5">No customers found.</td>
+            </tr>
+        </ng-template>
+        
+    </p-table>
+</div>
+<!-- overlay behind -->
+<div class="overlay-layer" [ngClass]="show?'show':''">
+
+</div>
+<!-- Add form -->
+
+<div class="inner" [ngClass]=    "statusAdd?'show':''" >  
+        <form [formGroup]="addForm" (ngSubmit)="addEmployee()">
+            <h3>New Employee</h3>
+            <h4>Personal Information</h4>
+            <div class="form-row">
+                <div class="form-wrapper">
+                    <label for="">Fullname</label>
+                    <input type="text" class="form-control" placeholder="Name" formControlName="fullName">
+                </div>
+                <div class="form-wrapper">
+                    <label for="">Phone</label>
+                    <input type="text" class="form-control" placeholder="Phone" formControlName="phoneNumber">
+                </div>
+            </div>
+            <div class="form-row">
+                <div class="form-wrapper">
+                    <label for="">Address</label>
+                    <input class="form-control" type="text" 
+                    placeholder="Address"
+                    data-language='en' 
+                    formControlName="addressEmployee">
+                </div>
+                <div class="form-wrapper">
+                    <label for="">Achievement</label>
+                    <span class="lnr lnr-calendar-full"></span>
+                    <input class="form-control" type="text" 
+                    formControlName="achievement"
+                    placeholder="Achievement" >
+                </div>
+            </div>
+            <div class="form-row">
+                <div class="form-wrapper">
+                    <label for="">Education</label>
+                    <select name="" id="" class="form-control" formControlName="qualityEducation">
+                        <option value="High school">High School</option>
+                        <option value="College">College</option>
+                        <option value="Labor">Labor</option>
+                    </select>
+                    <i class="zmdi zmdi-chevron-down"></i>
+                </div>
+                <div class="form-wrapper">
+                    <label for="">Grade</label>
+                    <select name="" id="" class="form-control" formControlName="grade">
+                        <option value="A">A</option>
+                        <option value="B">B</option>
+                        <option value="C">C</option>
+                        <option value="D">D</option>
+                    </select>
+                    <i class="zmdi zmdi-chevron-down"></i>
+                </div>
+            </div>
+            
+            <div class="form-row">
+                <div class="form-wrapper">
+                    <label for="">Service</label>
+                    <select name="" id="" class="form-control" formControlName="businessId">
+                        <option value=1>1</option>
+                        <option value=2>2</option>
+                        <option value=3>3</option>
+                        <option value=4>4</option>
+                    </select>
+                    <i class="zmdi zmdi-chevron-down"></i>
+                </div>
+                <div class="form-wrapper">
+                    <label for="">Role</label>
+                    <select name="" id="" class="form-control" formControlName="roleEmployee">
+                        <option value="Team Manager">Team Manager</option>
+                        <option value="Team Leader">Team Leader</option>
+                        <option value="Newbie">Newbie</option>
+                        <option value="Trainee">Trainee</option>
+                    </select>
+                    <i class="zmdi zmdi-chevron-down"></i>
+                </div>
+            </div>
+            <div class="form-row">
+                <div class="form-wrapper">
+                    <label for="">Department</label>
+                    <select name="" id="" class="form-control"
+                    formControlName="departmentId">
+                        <option value=1>1</option>
+                        <option value=2>2</option>
+                        <option value=3>3</option>
+                        <option value=4>4</option>
+                    </select>
+                    <i class="zmdi zmdi-chevron-down"></i>
+                </div>
+                
+            </div>
+            <h5>Upload Image</h5>
+            <div class="form-row">
+                    <p-fileUpload name="demo[]" url="./upload.php" (onUpload)="onUpload($event)"
+                    accept="image/*" >
+                   <ng-template pTemplate="content">
+                       <ul *ngIf="uploadedFiles.length">
+                           <li *ngFor="let file of uploadedFiles">{{file.name}} - {{file.size}} bytes</li>
+                       </ul>
+                   </ng-template>
+           </p-fileUpload>
+            
+               
+            </div>
+            
+           
+            <div class="button-container">
+                <button data-text="Finished" class="submit" >
+                    <span>Done</span>
+                </button>
+                <button data-text="Exit" (click)="showForm()">
+                    <span>Cancel</span>
+                </button>
+            </div>
+            
+        </form>
+     
+    </div>
+
+<!-- Update form -->
+<ng-container *ngIf="updateForm!=null">
+    <div class="inner" [ngClass]="statusUpdate?'show':''">  
+        <form [formGroup]="updateForm" (ngSubmit)="updateEmployee()" >
+
+            <h3>Update Employee</h3>
+            <h4>Personal Information</h4>
+            <div class="form-row">
+                <div class="form-wrapper">
+                    <label for="">Fullname</label>
+                    <input type="text" class="form-control" placeholder="Your Name"
+                    formControlName="fullName">
+                </div>
+                <div class="form-wrapper">
+                    <label for="">Phone</label>
+                    <input type="text" class="form-control" placeholder="Phone"
+                    formControlName="phoneNumber">
+                </div>
+            </div>
+            <div class="form-row">
+                <div class="form-wrapper">
+                    <label for="">Address</label>
+                    <input class="form-control" type="text" 
+                    placeholder="Address"
+                    data-language='en' 
+                    formControlName="addressEmployee">
+                </div>
+                <div class="form-wrapper">
+                    <label for="">Achievement</label>
+                    <span class="lnr lnr-calendar-full"></span>
+                    <input class="form-control" type="text" 
+                    formControlName="achievement"
+                    placeholder="Achievement" >
+                </div>
+            </div>
+            <div class="form-row">
+                <div class="form-wrapper">
+                    <label for="">Education</label>
+                    <select name="" id="" class="form-control" formControlName="qualityEducation">
+                        <option value="High school">High School</option>
+                        <option value="College">College</option>
+                        <option value="Labor">Labor</option>
+                    </select>
+                    <i class="zmdi zmdi-chevron-down"></i>
+                </div>
+                <div class="form-wrapper">
+                    <label for="">Grade</label>
+                    <select name="" id="" class="form-control" formControlName="grade">
+                        <option value="A">A</option>
+                        <option value="B">B</option>
+                        <option value="C">C</option>
+                        <option value="D">D</option>
+                    </select>
+                    <i class="zmdi zmdi-chevron-down"></i>
+                </div>
+            </div>
+            
+            <div class="form-row">
+                <div class="form-wrapper">
+                    <label for="">Service</label>
+                    <select name="" id="" class="form-control" formControlName="businessId">
+                        <option value=1>1</option>
+                        <option value=2>2</option>
+                        <option value=3>3</option>
+                        <option value=4>4</option>
+                    </select>
+                    <i class="zmdi zmdi-chevron-down"></i>
+                </div>
+                <div class="form-wrapper">
+                    <label for="">Role</label>
+                    <select name="" id="" class="form-control" formControlName="roleEmployee">
+                        <option value="Team Manager">Team Manager</option>
+                        <option value="Team Leader">Team Leader</option>
+                        <option value="Newbie">Newbie</option>
+                        <option value="Trainee">Trainee</option>
+                    </select>
+                    <i class="zmdi zmdi-chevron-down"></i>
+                </div>
+            </div>
+            <div class="form-row">
+                <div class="form-wrapper">
+                    <label for="">Department</label>
+                    <select name="" id="" class="form-control"
+                    formControlName="departmentId">
+                        <option value=1>1</option>
+                        <option value=2>2</option>
+                        <option value=3>3</option>
+                        <option value=4>4</option>
+                    </select>
+                    <i class="zmdi zmdi-chevron-down"></i>
+                </div>
+                <div class="form-wrapper">
+                    <label for="">Status</label>
+                    <select name="" id="" class="form-control" formControlName="statusEmployee">
+                        <option value=1>Working</option>
+                        <option value=2>Available</option>
+                        <option value=3>Unavailable</option>
+                    </select>
+                    <i class="zmdi zmdi-chevron-down"></i>
+                </div>
+            </div>
+            <h5>Upload Image</h5>
+            <div class="form-row">
+                    <p-fileUpload name="demo[]" url="./upload.php" (onUpload)="onUpload($event)"
+                    accept="image/*" >
+                   <ng-template pTemplate="content">
+                       <ul *ngIf="uploadedFiles.length">
+                           <li *ngFor="let file of uploadedFiles">{{file.name}} - {{file.size}} bytes</li>
+                       </ul>
+                   </ng-template>
+           </p-fileUpload>
+            
+               
+          
+            </div>
+            <div class="button-container">
+                <button data-text="Finished">
+                    <span>Done</span>
+                </button>
+                <button data-text="Exit" (click)=" showUpdate1()">
+                    <span>Cancel</span>
+                </button>
+            </div>
+            
+        </form>
+     
+    </div>
+</ng-container>
+    
+ 
+<!-- Details -->
+<ng-container *ngIf="detailEmployee!=null">
+    <div class="card-container" [ngClass]="statusDetail?'show':''">
+        <div class="card-header"
+      style="background-image: url(https://res.cloudinary.com/dj14cmwoz/image/upload/v1491077482/profile-card/images/profile-picture.png)"
+        >
+              <div class="card-header-bar">
+                <a  class="btn-message" (click)=" showDetails()"><span class="sr-only"></span></a>
+               
+              </div>
+    
+              <div class="card-header-slanted-edge">
+                <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1000 200"><path class="polygon" d="M-20,200,1300,0V200Z" /></svg>
+                  <a (click)= "showUpdate(detailEmployee.employeeId)" class="btn-follow"><span class="sr-only">Follow</span></a>
+              </div>
+        </div>
+    
+        <div class="card-body">
+            <h2 class="name">{{detailEmployee.fullName}}</h2>
+            <h4 class="job-title">{{detailEmployee.businessId}}</h4> 
+        </div>
+    
+        <div class="card-footer">
+            <div class="stats">
+                <a href="#"><div class="stat">
+                  <span class="label">Personal Info
+                  </span>
+                 
+                </div></a>
+                
+                <a href="#"><div class="stat">
+                  <span class="label">Work
+                  </span>
+                 
+                </div></a>
+    
+                <a href="#"><div class="stat">
+                  <span class="label">Account
+                  </span>
+                 
+                </div></a>
+                
+            </div>
+        </div>
+    </div>
+</ng-container>
+
+<!--Create Accounts-->
+
+<div class="inner-account show" [ngClass]= "statusAccount?'show':''" >  
+    
+    <form [formGroup]="accountForm" > 
+        <h3>Create Account</h3>
+        <h4>Account Information</h4>
+        
+        <div class="form-row">
+        <div class="form-wrapper last">
+            <label for="">Username</label>
+            <input type="text" class="form-control" placeholder="Input Username"
+            formControlName="userName">
+        </div>
+        <div class="form-wrapper">
+            <label for="">Password</label>
+            <input type="password" class="form-control" placeholder="Input Password"
+            formControlName="password">
+        </div>
+    </div>
+    <div class="form-row last-row">
+        <div class="form-wrapper last">
+            <label for="">Email</label>
+            <input type="text" class="form-control" placeholder="Input Email"
+            formControlName="email">
+        </div>
+       
+    </div>
+    <div class="button-container">
+        <button data-text="Finished" class="submit" >
+            <span>Done</span>
+        </button>
+        <button data-text="Exit" (click)="showForm()">
+            <span>Cancel</span>
+        </button>
+    </div></form>
+   
+ </div>
+
+

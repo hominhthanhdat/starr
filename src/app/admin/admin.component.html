@@ -1,0 +1,161 @@
+
+<body>
+    <div class="container">
+        <div class="navigation" [ngClass]="status?'active':''">
+            <ul>
+                <li><a href="#">
+                    <span class="icon"><i class="fa-solid fa-star"></i></span>
+                    <span class="title">Star</span></a>
+                </li>
+                <li><a [routerLink]="['/admin'] ">
+                    <span class="icon"><i class="fa-solid fa-house-chimney"></i></span>
+                    <span class="title">Home</span></a>
+                </li>
+                <li><a [routerLink]="['/admin/offer']">
+                    <span class="icon"><i class="fa-solid fa-file-arrow-up"></i> <div class="badge">+9</div></span>
+                   
+                    <span class="title">Offer</span></a>
+                </li>
+                <li><a [routerLink]="['/admin/client']">
+                    <span class="icon"><i class="fa-solid fa-user-tie"></i></span>
+                    <span class="title">Client</span></a>
+                </li>
+                <li><a [routerLink]="['/admin/employee']">
+                    <span class="icon"><i class="fa-solid fa-user-group"></i></span>
+                    <span class="title">Employee</span></a>
+                </li>
+                <li><a [routerLink]="['/admin/service']">
+                    <span class="icon"><i class="fa-solid fa-layer-group"></i></span>
+                    <span class="title">Service</span></a>
+                </li>
+                <li><a  [routerLink]="['/admin/vacancy']">
+                    <span class="icon"><i class="fa-solid fa-briefcase"></i></span>
+                    <span class="title">Vacancy</span></a>
+                </li>
+                <li><a [routerLink]="['/home']">
+                    <span class="icon"><i class="fa-solid fa-arrow-right-from-bracket"></i></span>
+                    <span class="title">Log out</span></a>
+                </li>
+            </ul>
+        </div>
+        <div class="main" [ngClass]="status?'active':''">
+            <div class="topbar">
+                <div class="toggle" (click)="toggleEvent()" ><i class="fa-solid fa-grip-lines"></i></div>
+                <div class="section-name">{{namePage}}</div>
+                <div class="admin-logo">
+                    <div class="icon"><i class="fa-solid fa-circle-user"></i> Admin</div>
+                </div>
+            </div>
+            <router-outlet></router-outlet>
+        </div>
+       
+    </div>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.1.1/css/all.min.css" integrity="sha512-KfkfwYDsLkIlwQp6LFnl8zNdLGxu9YAA1QvwINks4PhcElQSvqcyVLLD9aMhXd13uQjoXtEKNosOWaZqXgel0g==" crossorigin="anonymous" referrerpolicy="no-referrer" />
+</body>
+
+<!-- Main
+<div class="main" [ngClass]="status?'active':''">
+    <div class="topbar">
+        <div class="toggle" (click)="toggleEvent()" ><i class="fa-solid fa-grip-lines"></i></div>
+        <div class="section-name">Home</div>
+        <div class="admin-logo">
+            <div class="icon"><i class="fa-solid fa-circle-user"></i> Admin</div>
+        </div>
+    </div>
+    <div class="cardBox">
+        <div class="card">
+            <div class="card__infor">
+                <div class="card__number">100</div>
+                <div class="card__name">Employee</div>
+            </div>
+            <div class="card__icon"><i class="fa-solid fa-user-group"></i></div>
+        </div>
+        <div class="card">
+            <div class="card__infor">
+                <div class="card__number">30</div>
+                <div class="card__name">Client</div>
+            </div>
+            <div class="card__icon"><i class="fa-solid fa-user-tie"></i></div>
+        </div>
+        <div class="card">
+            <div class="card__infor">
+                <div class="card__number">20</div>
+                <div class="card__name">Service</div>
+            </div>
+            <div class="card__icon"><i class="fa-solid fa-layer-group"></i></div>
+        </div>
+        <div class="card">
+            <div class="card__infor">
+                <div class="card__number">10</div>
+                <div class="card__name">Vacancy</div>
+            </div>
+            <div class="card__icon"><i class="fa-solid fa-briefcase"></i></div>
+        </div>
+    </div>
+    <div class="Table-client-mini">
+        <div class="container-table">
+            <div class="header">
+                <h2>Recent Clients</h2>
+                <div class="btn">View All</div>
+            </div>
+            <table>
+                <thead>
+                    <tr>
+                        <td>Client</td>
+                        <td>Area</td>
+                        <td>Service</td>
+                        <td>Status</td>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td>Aptech</td>
+                        <td>HCM</td>
+                        <td>Cash Delivery</td>
+                        <td class="finished"><span>Finished</span></td>
+                    </tr>
+                    <tr>
+                        <td>Aptech</td>
+                        <td>HCM</td>
+                        <td>Cash Delivery</td>
+                        <td class="progress"><span>In Progress</span></td>
+                    </tr>
+                    <tr>
+                        <td>Aptech</td>
+                        <td>HCM</td>
+                        <td>Cash Delivery</td>
+                        <td class="finished"><span>Finished</span></td>
+                    </tr>
+                    <tr>
+                        <td>Aptech</td>
+                        <td>HCM</td>
+                        <td>Cash Delivery</td>
+                        <td class="progress"><span>In Progress</span></td>
+                    </tr>
+                    <tr>
+                        <td>Aptech</td>
+                        <td>HCM</td>
+                        <td>Cash Delivery</td>
+                        <td class="progress"><span>In Progress</span></td>
+                    </tr>
+                    <tr>
+                        <td>Aptech</td>
+                        <td>HCM</td>
+                        <td>Cash Delivery</td>
+                        <td class="finished"><span>Finished</span></td>
+                    </tr>
+                    <tr>
+                        <td>Aptech</td>
+                        <td>HCM</td>
+                        <td>Cash Delivery</td>
+                        <td class="progress"><span>In Progress</span></td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+        <div class="chart-container">
+            <h2>Service Using</h2>
+            <p-chart type="doughnut" [data]="data" [options]="chartOptions" [style]="{'width': '40%'}"></p-chart>
+        </div>
+    </div>
+</div> -->
